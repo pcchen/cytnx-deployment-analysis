@@ -18,9 +18,33 @@ Each is phrased so a maintainer could paste it into a GitHub issue. Effort estim
 
 3. **Add CI coverage for at least one `USE_CUDA=ON` configuration.** No workflow under `external/Cytnx/.github/workflows/` ever builds `USE_CUDA=ON`/`USE_CUTENSOR=ON`/`USE_CUQUANTUM=ON` (ch.01 §1.2 cross-cutting observation; ch.02 §2.3(b)) — the single largest gap in the dependency taxonomy — so the entire GPU path is exercised only by humans, never validated, and no `auditwheel`/`delocate` repair ever runs against it (ch.03 §3.2 ¶"The gap this leaves for the GPU stack"). Without this, the conda-forge GPU recommendation in §6.1 has no automated proof it builds at all. Fix: add a workflow that configures an `openblas-cuda` preset (ch.01 §1.1) on a CUDA-capable runner or container and at minimum compiles and imports. This is the enabling step for chapter 04's CuPy patterns C1–C3 (ch.04 §4.2–4.3). **Effort: M–L** (new workflow plus sourcing a CUDA build environment in CI).
 
+4. **Stop shipping the C++ SDK inside the Python wheel** (ch.07 §7.2) — the
+   single most deadline-driven change, because PyPI's storage quota is the
+   nearest hard wall (#947); pairs with the LTO-bloat and double-OpenBLAS fixes
+   (ch.07 §7.3). *Effort: S–M.*
+
 ## 6.3 Phased roadmap
 
-The three phases map onto chapter 02's dependency tiers and chapter 04's reference patterns. Each phase names the real Cytnx files it touches and states an acceptance signal.
+Phases 1–3 map onto chapter 02's dependency tiers and chapter 04's reference patterns; Phase 0 addresses the separate, more time-sensitive PyPI quota constraint chapter 07 diagnoses. Each phase names the real Cytnx files it touches and states an acceptance signal.
+
+### Phase 0 — immediate quota triage (most time-sensitive)
+
+PyPI's 10 GB per-project quota leaves ~3–4 releases of headroom at the current ~2.6 GB /
+release (ch.07 §7.1, #947), so this precedes the correctness/GPU phases below.
+
+1. Exclude the C++ SDK (`libcytnx.a` + headers + CMake config) from the Python
+   wheel via a scikit-build-core install-component exclusion (ch.07 §7.2, §7.7).
+   *Effort: S–M. Acceptance: wheel no longer contains `lib*/libcytnx.a` or
+   `include/`; per-release footprint drops sharply.*
+2. Fix the Linux slim-LTO bloat so the shipped archive is machine code, not
+   unreduced GIMPLE IR — only relevant if the `.a` is still shipped (ch.07 §7.2).
+   *Effort: S. Acceptance: extracted object files show real `.text`.*
+3. Dedupe OpenBLAS by aligning the manylinux `arpack` and cytnx builds to one
+   variant (ch.07 §7.3, §7.7). *Effort: M. Acceptance: repaired manylinux wheel
+   bundles a single OpenBLAS `.so`.*
+
+Building/validating these configs is the separate follow-up fix project
+(ch.07 §7.7), out of scope for this analysis.
 
 ### Phase 1 — Build-time discovery cleanup (make the build honest before packaging on top of it)
 
