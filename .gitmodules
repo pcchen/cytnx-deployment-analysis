@@ -1,0 +1,3 @@
+[submodule "external/Cytnx"]
+	path = external/Cytnx
+	url = https://github.com/Cytnx-dev/Cytnx.git
