@@ -23,6 +23,7 @@ in the [executive summary](docs/00-executive-summary.md).
 5. [Reference projects](docs/04-reference-projects.md)
 6. [Channel evaluation](docs/05-channel-evaluation.md)
 7. [Recommended strategy & roadmap](docs/06-recommended-strategy.md)
+8. [Wheel-artifact efficiency](docs/07-wheel-artifact-efficiency.md)
 
 ## Design & process
 

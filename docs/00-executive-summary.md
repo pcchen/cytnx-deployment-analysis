@@ -6,6 +6,8 @@ Reference commit: Cytnx `v1.1.0` (`8d96d928d22cc176615e97cafdb7a3cef66cb732`), p
 
 Cytnx already builds and publishes working CPU wheels to PyPI, but its GPU stack (CUDA/cuTENSOR/cuQuantum) has no CI coverage and no supported binary at all, and its dependency discovery relies on ambient search paths that fail silently at build time and replay as import-time crashes ([current-state audit](01-current-state-audit.md); [core problems](03-core-problems.md)). The result is a distribution story that works by accident for one CPU configuration and is undocumented, unreproducible, or entirely absent everywhere else ([dependency taxonomy](02-dependency-taxonomy.md)).
 
+Separately and most urgently, Cytnx's PyPI wheels are ~2.6 GB per release against a 10 GB storage quota — roughly 3–4 releases from a hard wall ([wheel-artifact efficiency](07-wheel-artifact-efficiency.md)).
+
 ## The recommendation
 
 Ship a **two-channel strategy split by dependency tier** — do not force one channel to do everything ([recommended strategy](06-recommended-strategy.md) §6.1, distilling the [channel evaluation](05-channel-evaluation.md) §5.4 matrix):
