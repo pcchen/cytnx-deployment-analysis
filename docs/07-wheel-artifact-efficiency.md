@@ -59,9 +59,12 @@ walk the two root causes this spot check corroborates.
 established as the link target for the `pycytnx` Python extension in ch.03
 §3.2). At install time, that target's `ARCHIVE` output — the compiled
 `libcytnx.a` — and its `PUBLIC_HEADER` output are installed together in one
-`INSTALL(TARGETS cytnx EXPORT cytnx_targets ...)` block with no `COMPONENT`
-filtering that would let a downstream build tool skip either output
-selectively (`external/Cytnx/CMakeLists.txt:457–467`). The same install pass
+`INSTALL(TARGETS cytnx EXPORT cytnx_targets ...)` block that does carry
+`COMPONENT libraries`/`COMPONENT Development` tags
+(`external/Cytnx/CMakeLists.txt:457–467`), but nothing sets
+scikit-build-core's `install.components` option in `pyproject.toml`, so those
+tags are never exercised and the whole install tree is packaged regardless.
+The same install pass
 also emits a full CMake package-config export — `install(EXPORT cytnx_targets
 ...)` (`external/Cytnx/CMakeLists.txt:477–481`) — and copies the entire
 `include/` tree (`install(DIRECTORY include/ ... FILES_MATCHING PATTERN
@@ -104,8 +107,8 @@ builds: **880 KB of pure LTO bytecode with an empty `.text` section on
 Linux, versus 199 KB of real machine code on macOS** — a 4.4× size
 difference for the same compiled unit, compounding across all ~180 object
 files in the archive (#947). This is why the spot check above found
-`libcytnx.a` occupying roughly two-thirds of the manylinux wheel while ch.02
-§2.2's parallel macOS-arm64 figure (cited in #947) is comparatively small
+`libcytnx.a` occupying roughly two-thirds of the manylinux wheel while
+the parallel macOS-arm64 figure (#947) is comparatively small
 (27.2 MB uncompressed / 4.7 MB packed): the same static-archive design choice
 is present on both platforms, but only Linux's LTO configuration turns it
 into a bytecode dump rather than a compiled library.
