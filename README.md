@@ -24,6 +24,13 @@ in the [executive summary](docs/00-executive-summary.md).
 6. [Channel evaluation](docs/05-channel-evaluation.md)
 7. [Recommended strategy & roadmap](docs/06-recommended-strategy.md)
 
+## Design & process
+
+How this analysis was scoped and built:
+
+- [Design spec](docs/superpowers/specs/2026-07-03-cytnx-deployment-analysis-design.md) — the agreed scope, structure, and success criteria for the document.
+- [Implementation plan](docs/superpowers/plans/2026-07-03-cytnx-deployment-analysis.md) — the task-by-task plan used to write and verify each chapter.
+
 ## Status
 
 Analysis phase. Prototype deployment configs are a marked follow-up (see
