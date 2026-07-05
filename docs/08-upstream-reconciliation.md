@@ -1,5 +1,7 @@
 # 08 — Upstream Reconciliation & Status Board
 
+> Upstream tracking issue: Cytnx-dev/Cytnx#970
+
 **Reconciled against:** `Cytnx-dev/Cytnx` `master` @ `32079a4` on 2026-07-05.
 
 Maps every ch.06 (Phases 0–3) and ch.07 roadmap item to its current upstream

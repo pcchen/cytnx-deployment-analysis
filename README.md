@@ -24,6 +24,7 @@ in the [executive summary](docs/00-executive-summary.md).
 6. [Channel evaluation](docs/05-channel-evaluation.md)
 7. [Recommended strategy & roadmap](docs/06-recommended-strategy.md)
 8. [Wheel-artifact efficiency](docs/07-wheel-artifact-efficiency.md)
+9. [Upstream reconciliation & status board](docs/08-upstream-reconciliation.md)
 
 ## Design & process
 
@@ -34,5 +35,8 @@ How this analysis was scoped and built:
 
 ## Status
 
-Analysis phase. Prototype deployment configs are a marked follow-up (see
-chapter 06).
+Analysis complete. Implementation campaign underway: the ch.06/07 roadmap is
+reconciled against upstream in [chapter 08](docs/08-upstream-reconciliation.md),
+and tracked upstream at Cytnx-dev/Cytnx#970. The first gap PR is
+named in chapter 08's "First-PR candidate" section; each phase is a separate
+spec → plan → PR cycle.
