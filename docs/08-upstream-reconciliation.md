@@ -1,6 +1,8 @@
 # 08 — Upstream Reconciliation & Status Board
 
 > Upstream tracking issue: Cytnx-dev/Cytnx#970
+>
+> Forward-looking task view: [chapter 09 — Action Plan & Item Tracker](09-action-plan.md)
 
 **Reconciled against:** `Cytnx-dev/Cytnx` `master` @ `32079a4` on 2026-07-05.
 

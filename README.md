@@ -25,6 +25,7 @@ in the [executive summary](docs/00-executive-summary.md).
 7. [Recommended strategy & roadmap](docs/06-recommended-strategy.md)
 8. [Wheel-artifact efficiency](docs/07-wheel-artifact-efficiency.md)
 9. [Upstream reconciliation & status board](docs/08-upstream-reconciliation.md)
+10. [Action plan & item tracker](docs/09-action-plan.md)
 
 ## Design & process
 
