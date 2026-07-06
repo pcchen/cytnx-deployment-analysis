@@ -61,9 +61,9 @@ Result — `cytnx-1.1.1-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch6
   (`libopenblasp-r0-*.so`) alongside `libarpack`, `libgfortran`, `libgomp`.
 - **SDK exclusion holds:** no `libcytnx.a`, no headers, no CMake config in the wheel.
 
-Caveats: (1) **aarch64 only** — the x86_64 path was not built (QEMU emulation too
-slow); Fedora/RHEL's dual serial+pthread OpenBLAS packaging is arch-identical, so
-this is high-confidence but not literally proven on x86_64 — best confirmed in CI.
+Caveats: (1) **confirmed on both arches** — aarch64 (native) and x86_64 (QEMU,
+~51 min), each vendoring a single OpenBLAS via the same switch. Earlier "aarch64
+only" caveat resolved (2026-07-06).
 (2) CMake emits its `file(GET_RUNTIME_DEPENDENCIES) ... in project mode ... not
 recommended` warning during configure — non-fatal here, but the mechanism leans on
 a code path CMake documents as install-time-only.
