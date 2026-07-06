@@ -27,8 +27,13 @@ item's status changes, update it here and in `docs/08`.
   ARPACK Fortran hidden char-length args), #972 (open, build test suite on
   macOS/AppleClang), #975 (open, macOS SVD-truncate test failures). Not roadmap
   items, but they gate whether macOS wheels/builds are actually healthy.
-- **Verification clone stale:** `../Cytnx-upstream` is at `32079a4`; upstream
-  `master` has advanced to `d02cb29` (2026-07-06). Re-fetch before next verification.
+- **PR #993** (2026-07-06) — **first #950 split**, OPEN: modernize the cuTENSOR/cuQuantum
+  finders (`FindCUTENSOR`/`FindCUQUANTUM` only; honest `*_FOUND`, version-aware `lib/`
+  search, cuTENSOR≥2.0). Covers items **1.1 + 3.2** (inseparable in one file). #950 to be
+  closed as superseded once all splits land. Remaining splits: PR-3 (#949 diag + dead
+  `linkflags.tmp`), PR-4 (version floors, pending #962), PR-6 (docs), GCC≥13→#961.
+- **Verification clone:** `../Cytnx-upstream` re-fetched to `master` @ `d02cb29`
+  (2026-07-06); PR-1 branch `split/cuda-finder-modernization` pushed from it.
 - **#962 / #969 decisions:** unchanged (no new activity).
 
 ## Master item status
@@ -42,7 +47,7 @@ gates (real gap · macOS-verifiable · not #969-coupled).
 | **0.1** SDK exclusion from wheel | covered | PR #967 | yes ✅ verified | Land #967 (review resolved) |
 | **0.2** Linux slim-LTO `.a` bloat | superseded | (via #967) | n/a | None — disappears with #967 |
 | **0.3** OpenBLAS dedup | covered | PR #967 | yes ✅ verified | Land #967; CI gate declined (out-of-scope + assertion wrong re LAPACKE fallback) |
-| **1.1** finder `*_FOUND` bug | gap (was in #950) | #945/#946 | no (Linux+CUDA) | **#950 split PR-1** |
+| **1.1** finder `*_FOUND` bug | in review — **PR #993** | #945/#946 | no (Linux+CUDA) | Land #993 |
 | **1.2** `$ORIGIN`/`~` rpath | dissolved | — | — | None |
 | **1.3** legacy `CUDA_*_LIBRARY`→`linkflags.tmp` block | gap | #949 | no (Linux+CUDA) | **#950 split PR-3** (extend #949 fix) |
 | **1.4** stale `adv_install.rst` options table | gap ⭐ | #950/#967 (adjacent) | yes | Docs PR (bundle B1) |
@@ -52,7 +57,7 @@ gates (real gap · macOS-verifiable · not #969-coupled).
 | **2.3** conda → conda-forge feedstock + version lag | gap-coupled | — | partial | After #969 |
 | **2.4** macOS Accelerate BLAS option | gap ⭐ | — | yes (native) | CMake/recipe option |
 | **3.1** CUDA CI runner (build/import `openblas-cuda`) | gap | — | no (needs CUDA runner) | Needs CI hardware |
-| **3.2** CuPy-C2 finder search chain | gap (was in #950) | #946 | no (Linux+CUDA) | **#950 split PR-2** |
+| **3.2** CuPy-C2 finder search chain | in review — **PR #993** | #946 | no (Linux+CUDA) | Land #993 (folded with 1.1) |
 | **3.3** conda-forge GPU deps (CuPy-C3) | superseded | #969 | — | Folded into #969 |
 | **3.4** per-CUDA-major wheels (CuPy-C1) | superseded | #969 | — | A #969 option |
 | **3.5** reconcile `cytnx_cuda` conda doc | gap ⭐ | — | yes | Docs PR (bundle B1) |
@@ -65,8 +70,7 @@ list in [chapter 08 "PR #950 split"](08-upstream-reconciliation.md#pr-950-split)
 
 | Split PR | Content | Covers | Status |
 |----------|---------|--------|--------|
-| **PR-1** | finder `*_FOUND` via `find_package_handle_standard_args` | 1.1 | not started — **recommended #950 start** |
-| **PR-2** | FindCUTENSOR version-aware `lib/${MAJOR}` subdir | 3.2 | not started (sequence after PR-1) |
+| **PR-1+2** | finder `*_FOUND` correctness **+** version-aware `lib/${MAJOR}` layout + cuTENSOR≥2.0 header check (inseparable in `FindCUTENSOR.cmake`) | 1.1, 3.2 | **OPEN — PR #993** |
 | **PR-3** | #949 modern diagnostics **+ remove legacy `linkflags.tmp` block** | #949 + 1.3 | not started |
 | **PR-4** | version floors: CUDA≥12 (12&13), cuTENSOR≥2.0, arch adapt, nvcc error | #962 | blocked on #962 decision |
 | **(fold)** | GCC≥13 enforcement | — | **fold into PR #961** (no new PR) |
