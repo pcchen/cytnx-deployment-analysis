@@ -6,16 +6,30 @@
 every roadmap item, the PR #950 split, and the prioritized next actions. When an
 item's status changes, update it here and in `docs/08`.
 
-## Upstream state snapshot (2026-07-05)
+## Upstream state snapshot (updated 2026-07-06)
 
 - **Issue #970** — "Deployment strategy — status board" (umbrella tracker), OPEN.
-- **PR #967** — SDK exclusion (0.1) + OpenBLAS dedup (0.3). Reviewed + **locally
-  verified** on manylinux_2_28 aarch64 (single vendored OpenBLAS; SDK excluded);
-  follow-up comment posted. Merge-ready pending an x86_64 CI confirmation.
+- **PR #967** — SDK exclusion (0.1) + OpenBLAS dedup (0.3). **Review resolved:**
+  IvanaGyro confirmed the ARPACK/`BACKEND_TORCH` point (fixed the commit message,
+  force-pushed) and accepted our manylinux_2_28 aarch64 build as validating the
+  dedup logic. **The single-OpenBLAS CI gate was declined** (issue #971, closed
+  "not planned"): #967's goal is size reduction, not a hard anti-double-vendoring
+  guarantee, and — importantly — a strict "exactly one OpenBLAS" assertion is
+  *technically wrong*, because #967 intentionally allows two variants when
+  arpack's OpenBLAS lacks LAPACKE (the fallback branch). Our earlier CI-gate
+  suggestion is retracted. #967 still OPEN, otherwise merge-ready.
 - **PR #950** — CUDA finder hardening + version floors. **Will NOT merge as-is —
   to be split** (see "PR #950 split"). Items 1.1 and 3.2 are `gap` until the
-  split PRs land.
+  split PRs land. (No new activity as of 2026-07-06.)
 - **PR #961** — requires GCC≥13 for `std::format`; **absorb #950's GCC≥13 piece here.**
+- **macOS build-health cluster** (context for the macOS-focused ready-now items
+  2.1/2.4): #974 (CLOSED, macOS ARPACK Lanczos/Arnoldi segfault), #990 (open, fix
+  ARPACK Fortran hidden char-length args), #972 (open, build test suite on
+  macOS/AppleClang), #975 (open, macOS SVD-truncate test failures). Not roadmap
+  items, but they gate whether macOS wheels/builds are actually healthy.
+- **Verification clone stale:** `../Cytnx-upstream` is at `32079a4`; upstream
+  `master` has advanced to `d02cb29` (2026-07-06). Re-fetch before next verification.
+- **#962 / #969 decisions:** unchanged (no new activity).
 
 ## Master item status
 
@@ -25,9 +39,9 @@ gates (real gap · macOS-verifiable · not #969-coupled).
 
 | Item | Status | Upstream | Verifiable on macOS | Next action |
 |------|--------|----------|---------------------|-------------|
-| **0.1** SDK exclusion from wheel | covered | PR #967 | yes ✅ verified | Land #967; add x86_64 CI check |
+| **0.1** SDK exclusion from wheel | covered | PR #967 | yes ✅ verified | Land #967 (review resolved) |
 | **0.2** Linux slim-LTO `.a` bloat | superseded | (via #967) | n/a | None — disappears with #967 |
-| **0.3** OpenBLAS dedup | covered | PR #967 | yes ✅ verified | Land #967; CI single-OpenBLAS assert |
+| **0.3** OpenBLAS dedup | covered | PR #967 | yes ✅ verified | Land #967; CI gate declined (out-of-scope + assertion wrong re LAPACKE fallback) |
 | **1.1** finder `*_FOUND` bug | gap (was in #950) | #945/#946 | no (Linux+CUDA) | **#950 split PR-1** |
 | **1.2** `$ORIGIN`/`~` rpath | dissolved | — | — | None |
 | **1.3** legacy `CUDA_*_LIBRARY`→`linkflags.tmp` block | gap | #949 | no (Linux+CUDA) | **#950 split PR-3** (extend #949 fix) |

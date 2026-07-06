@@ -68,8 +68,13 @@ this is high-confidence but not literally proven on x86_64 — best confirmed in
 recommended` warning during configure — non-fatal here, but the mechanism leans on
 a code path CMake documents as install-time-only.
 
-Reported upstream as a follow-up comment on PR #967 (2026-07-05), with a suggested
-post-`auditwheel` CI assertion (single bundled OpenBLAS) to lock the guarantee in.
+Reported upstream as a follow-up comment on PR #967 (2026-07-05). The review was
+resolved positively — IvanaGyro confirmed the ARPACK/`BACKEND_TORCH` point (fixed
+the commit message) and accepted the aarch64 build as validating the dedup logic.
+A suggested single-OpenBLAS CI gate was **declined** (issue #971, closed "not
+planned"): #967's goal is wheel-size reduction, not a hard guarantee, and a strict
+"exactly one OpenBLAS" assertion is in fact incorrect — #967 intentionally allows
+two variants when arpack's OpenBLAS lacks LAPACKE (the fallback branch).
 
 ## PR #950 split (2026-07-05)
 
